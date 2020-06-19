@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id "io.qameta.allure" version "2.8.1"
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    testCompile group: 'org.testng', name: 'testng', version: '7.0.0'
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+    compile group: 'com.codeborne', name: 'selenide', version: '5.10.0'
+    compile group: 'io.qameta.allure', name: 'allure-testng', version: '2.13.1'
+    testRuntimeOnly 'org.slf4j:slf4j-simple:1.7.28'
+}
+
+allure {
+    version = '2.8.1'
+    autoconfigure = true
+    aspectjweaver = true
+}
+
+wrapper {
+    gradleVersion = '5.2.1'
+
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+test{
+    jvmArgs '-noverify'
+    useTestNG() {
+        suites 'src/test/resources/run_test.xml'
+    }
+}
